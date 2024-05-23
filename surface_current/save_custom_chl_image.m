@@ -24,7 +24,7 @@ for day = 11:11
       % plot Chl image %
       fprintf('    plot Chl image ... \n\n')
       hold on; 
-      fig = figure('Visible','off');
+      fig = figure('Visible','on');
       pcolor(chl_image); 
       clim([0 3.5]); 
       shading flat;
@@ -36,7 +36,7 @@ for day = 11:11
       % 이미지 파일 저장 %
       fprintf('    save image in local ... \n\n')
       filename = sprintf('23-10-%d_%d15', day, time);
-      saveas(fig, ['./sample/', filename ,'.jpg']);
+      %saveas(fig, ['./sample/', filename ,'.jpg']);
 
 
       fprintf('end  23.10.%d / %d:15 ... \n',day, time)
