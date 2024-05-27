@@ -5,7 +5,7 @@ for day = 11:11
     for time = 10:10
 
         % 2780 x 2780 -> % 100 x 100
-        window_size = 500;
+        window_size = 300;
         
         filename = sprintf('C:/Users/민경윤/Documents/MATLAB/23.10.%d/%d15.nc',day, time);
         data1 = ncread(filename, '/geophysical_data/Chl');
