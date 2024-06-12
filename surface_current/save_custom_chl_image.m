@@ -2,13 +2,13 @@ clc;
 
 
 for day = 11:11
+    minX = 1520;
+    maxX = 1820;
+    minY = 1198;
+    maxY = 1498;
 
-    minX = 1391;
-    maxX = 1690;
-    minY = 891;
-    maxY = 1190;
 
-    for time = 10:15
+    for time = 10:12
 
       fprintf('start  23.10.%d / %d:15 ... \n\n',day, time)
 
@@ -29,7 +29,7 @@ for day = 11:11
           shading flat;
           axis off;
           filename = sprintf('23-10-%d_blank_image', day);
-          saveas(fig, ['./sample_300x300_2/', filename ,'.jpg']);
+          saveas(fig, [save_path, filename ,'.jpg']);
       end
 
       %chl_image = chl_image(2071:2570, 271:770);
@@ -69,14 +69,21 @@ for day = 11:11
       % 이미지 파일 저장 %
       fprintf('    save image in local ... \n\n')
       filename = sprintf('23-10-%d_%d15', day, time);
-      save_path = './sample_300x300_2/';
-      saveas(fig, [save_path, filename ,'.jpg']);
 
-      save_path = append(save_path,'interp/');
+
+      save_path = './상왕등도_data/';
       if ~exist(save_path, 'dir')
           mkdir(save_path);
       end
-      saveas(fig2, [save_path, filename ,'.jpg']);
+      saveas(fig, [save_path, filename ,'.jpg']);
+
+
+
+      save_path_interp = append(save_path,'interp/');
+      if ~exist(save_path_interp, 'dir')
+          mkdir(save_path_interp);
+      end
+      saveas(fig2, [save_path_interp, filename ,'.jpg']);
       
 
 
