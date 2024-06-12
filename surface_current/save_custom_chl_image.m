@@ -8,7 +8,7 @@ for day = 11:11
     minY = 891;
     maxY = 1190;
 
-    for time = 9:16
+    for time = 10:15
 
       fprintf('start  23.10.%d / %d:15 ... \n\n',day, time)
 
@@ -44,6 +44,8 @@ for day = 11:11
       min_val = min(chl_image(:))
       max_val = max(chl_image(:))
 
+
+
       % plot Chl image %
       fprintf('    plot Chl image ... \n\n')
       hold on; 
@@ -53,11 +55,29 @@ for day = 11:11
       shading flat;
       axis off;
 
+      %plot interplated Chl image
+      fprintf('    plot interp image ... \n\n')
+      interp_image = inpaint_nans(chl_image,2);
+      hold on; 
+      fig2 = figure('Visible','off');
+      pcolor(interp_image); 
+      clim([0.0,2.5]); 
+      shading flat;
+      axis off;
+
 
       % 이미지 파일 저장 %
       fprintf('    save image in local ... \n\n')
       filename = sprintf('23-10-%d_%d15', day, time);
-      saveas(fig, ['./sample_300x300_2/', filename ,'.jpg']);
+      save_path = './sample_300x300_2/';
+      saveas(fig, [save_path, filename ,'.jpg']);
+
+      save_path = append(save_path,'interp/');
+      if ~exist(save_path, 'dir')
+          mkdir(save_path);
+      end
+      saveas(fig2, [save_path, filename ,'.jpg']);
+      
 
 
       fprintf('end  23.10.%d / %d:15 ... \n',day, time)
