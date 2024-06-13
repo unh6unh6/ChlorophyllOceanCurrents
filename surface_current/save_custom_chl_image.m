@@ -2,13 +2,13 @@ clc;
 
 
 for day = 11:11
-    minX = 1520;
-    maxX = 1820;
-    minY = 1198;
-    maxY = 1498;
+    minX = 2071;
+    maxX = 2570;
+    minY = 271;
+    maxY = 770;
 
 
-    for time = 10:15
+    for time = 9:15
 
       fprintf('start  23.10.%d / %d:15 ... \n\n',day, time)
 
@@ -71,7 +71,7 @@ for day = 11:11
       filename = sprintf('23-10-%d_%d15', day, time);
 
 
-      save_path = './상왕등도_data/';
+      save_path = './sample_300x300_1/';
       if ~exist(save_path, 'dir')
           mkdir(save_path);
       end
