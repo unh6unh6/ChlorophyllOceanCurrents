@@ -1,4 +1,4 @@
-data_path = './상왕등도_data_fullscreen/interp/result_data.mat';
+data_path = './상왕등도_data_fullscreen/interp/test3/result_data.mat';
 result_data = load(data_path);
 result = [];
 
@@ -28,28 +28,46 @@ for time = 10:15
     if direction_deg < 0
         direction_deg = 360 + direction_deg;
     end
-    
-    if direction_deg >= 337.5 || direction_deg < 22.5
-        direction_str = '북'; 
-    elseif direction_deg >= 22.5 && direction_deg < 67.5
+        
+    if direction_deg >= 348.75 || direction_deg < 11.25
+        direction_str = '북';
+    elseif direction_deg >= 11.25 && direction_deg < 33.75
+        direction_str = '북북동';
+    elseif direction_deg >= 33.75 && direction_deg < 56.25
         direction_str = '북동';
-    elseif direction_deg >= 67.5 && direction_deg < 112.5
+    elseif direction_deg >= 56.25 && direction_deg < 78.75
+        direction_str = '동북동';
+    elseif direction_deg >= 78.75 && direction_deg < 101.25
         direction_str = '동';
-    elseif direction_deg >= 112.5 && direction_deg < 157.5
+    elseif direction_deg >= 101.25 && direction_deg < 123.75
+        direction_str = '동남동';
+    elseif direction_deg >= 123.75 && direction_deg < 146.25
         direction_str = '남동';
-    elseif direction_deg >= 157.5 && direction_deg < 202.5
+    elseif direction_deg >= 146.25 && direction_deg < 168.75
+        direction_str = '남남동';
+    elseif direction_deg >= 168.75 && direction_deg < 191.25
         direction_str = '남';
-    elseif direction_deg >= 202.5 && direction_deg < 247.5
+    elseif direction_deg >= 191.25 && direction_deg < 213.75
+        direction_str = '남남서';
+    elseif direction_deg >= 213.75 && direction_deg < 236.25
         direction_str = '남서';
-    elseif direction_deg >= 247.5 && direction_deg < 292.5
+    elseif direction_deg >= 236.25 && direction_deg < 258.75
+        direction_str = '서남서';
+    elseif direction_deg >= 258.75 && direction_deg < 281.25
         direction_str = '서';
-    elseif direction_deg >= 292.5 && direction_deg < 337.5
+    elseif direction_deg >= 281.25 && direction_deg < 303.75
+        direction_str = '서북서';
+    elseif direction_deg >= 303.75 && direction_deg < 326.25
         direction_str = '북서';
+    elseif direction_deg >= 326.25 && direction_deg < 348.75
+        direction_str = '북북서';
     end
+
+
     
-    result{1, time-9} = u;
-    result{2, time-9} = v;
-    result{3, time-9} = velocity;
+    result{1, time-9} = u * 10^2;
+    result{2, time-9} = v * 10^2;
+    result{3, time-9} = velocity * 10^2;
     result{4, time-9} = direction_rad;
     result{5, time-9} = direction_deg;
     result{6, time-9} = direction_str;

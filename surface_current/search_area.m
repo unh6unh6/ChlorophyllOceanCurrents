@@ -45,7 +45,8 @@ for day = 11:11
             
                 intersect_valid = find(data1_isValid & data2_isValid);
                 valid_percent = ( size(intersect_valid,1) / (window_size^2) ) * 100;
-
+                
+                deviation = mean( [nanmax(data1_sub(:)) - nanmin(data1_sub(:)), nanmax(data2_sub(:)) - nanmin(data2_sub(:))] );
 
                 result(result_index, 1) = minX;
                 result(result_index, 2) = maxX;
@@ -54,6 +55,7 @@ for day = 11:11
                 result(result_index, 5) = valid_percent;
                 result(result_index, 6) = data1_valid_percent(1);
                 result(result_index, 7) = data2_valid_percent(1);
+                result(result_index, 8) = deviation;
 
                 result_index = result_index+1;
            
@@ -76,7 +78,7 @@ for day = 11:11
         %result = sortrows(result(exists,:), 5, 'descend');
 
         result_table = array2table(result,"VariableNames", ["minX","maxX","minY","maxY","valid_percent" ...
-            ,"data1_valid_percent","data2_valid_percent"]);
+            ,"data1_valid_percent","data2_valid_percent", "deviation"]);
 
     end
 end
