@@ -8,76 +8,97 @@ for day = 11:11
 
     for time = 9:15
 
-      fprintf('start  23.10.%d / %d:15 ... \n\n',day, time)
+        fprintf('start  23.10.%d / %d:15 ... \n\n', day, time);
 
-      fprintf('    build matrix ... \n\n')
-      filename = sprintf('C:/Users/민경윤/Desktop/논문/ChlorophyllOceanCurrents/23.10.%d/%d15.nc',day, time);
-      chl_image = ncread(filename, '/geophysical_data/Chl');
-      chl_image = rot90(chl_image);
+        fprintf('    build matrix ... \n\n');
+        filename = sprintf('C:/Users/민경윤/Desktop/논문/ChlorophyllOceanCurrents/23.10.%d/%d15.nc', day, time);
+        chl_image = ncread(filename, '/geophysical_data/Chl');
+        chl_image = rot90(chl_image);
 
-      if time == 12 % save blank image
-          chl_blank_image = chl_image;
-          chl_blank_image(minX:maxX, minY:maxY) = 0;
-          hold on; 
-          fig = figure('Visible','off');
-          pcolor(chl_blank_image); 
-          clim([0, 2.5]); 
-          shading flat;
-          axis off; 
-          set(gca, 'Position', [0 0 1 1]); % Remove margins
-          filename = sprintf('23-10-%d_blank_image', day);
-          saveas(fig, [save_path, filename ,'.jpg']);
-      end
+        if time == 12 % save blank image
+            chl_blank_image = chl_image;
+            chl_blank_image(minX:maxX, minY:maxY) = 0;
+            fig = figure('Visible', 'off');
+            pcolor(chl_blank_image); 
+            clim([0, 3]); 
+            shading flat;
+            axis off; 
+            set(gca, 'Position', [0 0 1 1]); % Remove margins
+            
+            % Set figure size explicitly for square shape
+            fig.Units = 'pixels';
+            fig.Position(3) = 500; % Set width
+            fig.Position(4) = 500; % Set height
 
-      chl_image = chl_image(minX:maxX, minY:maxY);
+            filename = sprintf('23-10-%d_blank_image', day);
+            save_path = './상왕등도_data_fullscreen/';
+            if ~exist(save_path, 'dir')
+                mkdir(save_path);
+            end
+            exportgraphics(fig, [save_path, filename, '.jpg'], 'Resolution', 300);
+            close(fig);
+        end
 
-      if time == 12
-          temp = chl_image;
-      end
+        chl_image = chl_image(minX:maxX, minY:maxY);
 
-      mean_val = mean(chl_image(:), 'omitnan')
-      min_val = min(chl_image(:))
-      max_val = max(chl_image(:))
+        if time == 12
+            temp = chl_image;
+        end
 
-      % plot Chl image %
-      fprintf('    plot Chl image ... \n\n')
-      hold on; 
-      fig = figure('Visible','off');
-      pcolor(chl_image); 
-      clim([0.0,2.5]); 
-      shading flat;
-      axis off; 
-      set(gca, 'Position', [0 0 1 1]); % Remove margins
+        mean_val = mean(chl_image(:), 'omitnan');
+        min_val = min(chl_image(:));
+        max_val = max(chl_image(:));
 
-      % plot interpolated Chl image
-      fprintf('    plot interp image ... \n\n')
-      interp_image = inpaint_nans(chl_image, 2);
-      hold on; 
-      fig2 = figure('Visible','off');
-      pcolor(interp_image); 
-      clim([0.0,2.5]); 
-      shading flat;
-      axis off; 
-      set(gca, 'Position', [0 0 1 1]); % Remove margins
+        % plot Chl image %
+        fprintf('    plot Chl image ... \n\n');
+        fig = figure('Visible', 'off');
+        pcolor(chl_image); 
+        clim([0.0, 4]); 
+        shading flat;
+        axis off;
+        set(gca, 'Position', [0 0 1 1]); % Remove margins
+        
+        % Set figure size explicitly for square shape
+        fig.Units = 'pixels';
+        fig.Position(3) = 500; % Set width
+        fig.Position(4) = 500; % Set height
 
-      % 이미지 파일 저장 %
-      fprintf('    save image in local ... \n\n')
-      filename = sprintf('23-10-%d_%d15', day, time);
+        % plot interpolated Chl image
+        fprintf('    plot interp image ... \n\n');
+        interp_image = inpaint_nans(chl_image, 2);
+        fig2 = figure('Visible', 'off');
+        pcolor(interp_image); 
+        clim([0.0, 4]); 
+        shading flat;
+        axis off;
+        set(gca, 'Position', [0 0 1 1]); % Remove margins
+        
+        % Set figure size explicitly for square shape
+        fig2.Units = 'pixels';
+        fig2.Position(3) = 500; % Set width
+        fig2.Position(4) = 500; % Set height
 
-      save_path = './상왕등도_data_fullscreen/';
-      if ~exist(save_path, 'dir')
-          mkdir(save_path);
-      end
-      saveas(fig, [save_path, filename ,'.jpg']);
+        % 이미지 파일 저장 %
+        fprintf('    save image in local ... \n\n');
+        filename = sprintf('23-10-%d_%d15', day, time);
 
-      save_path_interp = append(save_path,'interp/');
-      if ~exist(save_path_interp, 'dir')
-          mkdir(save_path_interp);
-      end
-      saveas(fig2, [save_path_interp, filename ,'.jpg']);
+        save_path = './상왕등도_data_fullscreen/';
+        if ~exist(save_path, 'dir')
+            mkdir(save_path);
+        end
+        exportgraphics(fig, [save_path, filename, '.jpg'], 'Resolution', 300);
 
-      fprintf('end  23.10.%d / %d:15 ... \n',day, time)
-      disp('-------------------------------------------------')
+        save_path_interp = append(save_path, 'interp/');
+        if ~exist(save_path_interp, 'dir')
+            mkdir(save_path_interp);
+        end
+        exportgraphics(fig2, [save_path_interp, filename, '.jpg'], 'Resolution', 300);
+
+        close(fig);
+        close(fig2);
+
+        fprintf('end  23.10.%d / %d:15 ... \n', day, time);
+        disp('-------------------------------------------------');
 
     end
 end
