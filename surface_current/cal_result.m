@@ -1,8 +1,8 @@
-data_path = './상왕등도_data_fullscreen/interp/test3/result_data.mat';
+data_path = './상왕등도_data_fullscreen/test1/result_data.mat';
 result_data = load(data_path);
 result = [];
 
-for time = 10:15
+for time = 10:13
     u_matrix = result_data.u_original{time-9,1};
     v_matrix = result_data.v_original{time-9,1};
     
@@ -73,4 +73,4 @@ for time = 10:15
     result{6, time-9} = direction_str;
 end
 
-result_table = array2table(result, 'VariableNames', {'9~10','10~11','11~12','12~13','13~14','14~15'});
+result_table = array2table(result, 'VariableNames', {'9~10','10~11','11~12','12~13'});

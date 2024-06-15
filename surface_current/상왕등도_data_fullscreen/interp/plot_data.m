@@ -5,7 +5,7 @@
 % 주어진 데이터
 observed_velocity = [8.1, 11.67142857, 10.61666667, 9.916666667, 12.41428571, 19.38571429];
 calculated_velocity = [13.208922, 9.497057, 15.25822, 10.288294, 9.2971811, 10.178657];
-time = {'9:15-10:15', '10:15-11:15', '11:15-12:15', '12:15-13:15', '13:15-14:15', '14:15-15:15'};
+time = {'time1', 'time2', 'time3','time4', 'time5', 'time6'};
 
 time_cell = cellstr(time);
 
@@ -19,17 +19,15 @@ plot(time_categorical, observed_velocity, '-s', 'DisplayName', '관측 유속 (c
 plot(time_categorical, calculated_velocity, '-o', 'DisplayName', '산출 유속 (cm/sec)');
 
 
-% 0.2 지점과 55.9 지점에 점 추가
-plot(time_categorical(1), 0.2, 'r*', 'DisplayName', '당일 최저 유속 (0.2 cm/sec)');
-plot(time_categorical(1), 55.9, 'g*', 'DisplayName', '당일 최대 유속 (55.9 cm/sec)');
+%plot(time_categorical(1), 0.2, 'r*', 'DisplayName', '당일 최저 유속 (0.2 cm/sec)');
+%plot(time_categorical(1), 55.9, 'g*', 'DisplayName', '당일 최대 유속 (55.9 cm/sec)');
 
 hold off;
 
 % 그래프 속성 설정
 xlabel('Time');
 ylabel('Velocity (cm/sec)');
-legend('Location', 'best');
-title('관측 유속과 산출 유속의 편차');
+%legend('Location', 'best');
 
 grid on;
 
@@ -74,6 +72,34 @@ for i = 1:length(observed_angles)
 end
 %% 
 
+% 유속 편차 그래프
+
+% 주어진 데이터
+observed_velocity = [8.1, 11.67142857, 10.61666667, 9.916666667, 12.41428571, 19.38571429];
+calculated_velocity = [13.208922, 9.497057, 15.25822, 10.288294, 9.2971811, 10.178657];
+
+% 편차 계산
+deviations = abs(observed_velocity - calculated_velocity);
+
+% 그래프 그리기
+figure;
+bar(deviations, 0.5, 'FaceColor', [0.8 0.8 0.8]); % 연한 갈색으로 막대 그래프 표시
+
+xlabel('Time');
+ylabel('velocity deviation (cm/sec)');
+
+% y축 상한 및 하한 설정
+ylim([0.2 55.9]); % y축 범위 설정 
+ytickformat('%.1f');
+
+xticks(1:length(deviations));
+xticklabels(time_categorical);
+
+% 그리드 표시
+grid on;
+
+%%
+
 % 유향 편차 그래프
 
 % 주어진 데이터
@@ -94,10 +120,10 @@ end
 
 % 그래프 그리기
 figure;
-bar(deviations, 0.5); % 편차를 막대 그래프로 표시
+bar(deviations, 0.5, 'FaceColor', [0.8 0.8 0.8]); % 연한 갈색으로 막대 그래프 표시
+
 xlabel('Time');
-ylabel('편차 (degree)');
-title('관측 유향과 산출 유향의 편차');
+ylabel('angular deviation (°)');
 
 % y축 상한 및 하한 설정
 ylim([0 180]); % y축 범위 설정 (상한 180, 하한 0)
@@ -115,11 +141,43 @@ grid on;
 for i = 1:length(deviations)
     text(i, deviations(i) + 5, num2str(round(deviations(i), 2)), ...
         'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', ...
-        'Color', 'blue', 'FontWeight', 'bold');
+        'Color', 'black');
 end
 
+%% 
+%유향 비교 그래프
+
+% 주어진 데이터
+observed_angles = [118, 73.71428571, 44.83333333, 285.1666667, 309.4285714, 282.5714286];
+calculated_angles = [88.505623, 34.135136, 74.694809, 311.93002, 369.050549, 297.92905];
+time = {'time1', 'time2', 'time3','time4', 'time5', 'time6'};
+
+time_cell = cellstr(time);
+
+% 셀형 배열을 categorical 형식으로 변환
+time_categorical = categorical(time_cell, time, 'Ordinal', true);
 
 
+% 그래프 그리기
+figure;
+hold on;
+plot(time_categorical, observed_angles, '-s', 'DisplayName', '관측 유향 (degree)');
+plot(time_categorical, calculated_angles, '-o', 'DisplayName', '산출 유향 (degree)');
 
+hold off;
+
+% 그래프 속성 설정
+xlabel('Time');
+ylabel('Degree (°)');
+%legend('Location', 'best');
+
+grid on;
+
+% y축 범위 설정
+ylim([30, 390]);
+
+% y축 눈금 설정
+yticks([30:30:390]); % 원하는 위치에 눈금 설정
+yticklabels({'30', '60', '90', '120', '150', '180', '210', '240', '270', '300', '330', '360', '390'}); % 숫자를 표시할 위치에 맞게 설정
 
 
