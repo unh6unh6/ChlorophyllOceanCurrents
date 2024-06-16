@@ -1,18 +1,23 @@
 clc;
+set_year = 23;
+set_month = 10;
+set_day = 11;
+set_slot = 7;
 
-for day = 11:11
-    minX = 2361;
-    maxX = 2660;
-    minY = 381;
-    maxY = 680;
+for day = set_day:set_day
+    minX = 2391;
+    maxX = 2690;
+    minY = 71;
+    maxY = 370;
 
-    save_path = './sample_300x300_fullscreen/';
-    for time = 9:15
+
+    save_path = './sample_min_devigation_fullscreen/main/after/';
+    for time = 10:10
 
         fprintf('start  23.10.%d / %d:15 ... \n\n', day, time);
 
         fprintf('    build matrix ... \n\n');
-        filename = sprintf('C:/Users/민경윤/Desktop/논문/ChlorophyllOceanCurrents/23.10.%d/%d15.nc', day, time);
+        filename = sprintf('C:/Users/민경윤/Desktop/논문/ChlorophyllOceanCurrents/%d.%d.%d_slot%d/%d15.nc',set_year,set_month, day,  set_slot, time);
         chl_image = ncread(filename, '/geophysical_data/Chl');
         chl_image = rot90(chl_image);
 
@@ -31,7 +36,7 @@ for day = 11:11
             fig.Position(3) = 500; % Set width
             fig.Position(4) = 500; % Set height
 
-            filename = sprintf('23-10-%d_blank_image', day);
+            filename = sprintf('%d-%d-%d_blank_image',set_year, set_month, day);
             if ~exist(save_path, 'dir')
                 mkdir(save_path);
             end
@@ -60,8 +65,8 @@ for day = 11:11
             ylabel('Frequency');
             
             % x축과 y축 범위 지정 (옵션)
-            xlim([0.0 3.0]);
-            ylim([0 6000]);
+            %xlim([0.0 3.0]);
+            %ylim([0 6000]);
             
             % 데이터 개수 구하기
             num_elements = numel(chl_histogram);
@@ -81,7 +86,7 @@ for day = 11:11
         fprintf('    plot Chl image ... \n\n');
         fig = figure('Visible', 'off');
         pcolor(chl_image); 
-        clim([0, 3.1]); 
+        clim([0, 3.5]); 
         shading flat;
         axis off;
         set(gca, 'Position', [0 0 1 1]); % Remove margins
@@ -96,19 +101,20 @@ for day = 11:11
         interp_image = inpaint_nans(chl_image, 2);
         fig2 = figure('Visible', 'off');
         pcolor(interp_image); 
-        clim([0, 3.1]); 
+        clim([0, 1.8]); 
         shading flat;
         axis off;
-        set(gca, 'Position', [0 0 1 1]); % Remove margins
+        colorbar;
+        %set(gca, 'Position', [0 0 1 1]); % Remove margins
         
         % Set figure size explicitly for square shape
-        fig2.Units = 'pixels';
-        fig2.Position(3) = 500; % Set width
-        fig2.Position(4) = 500; % Set height
+        %fig2.Units = 'pixels';
+        %fig2.Position(3) = 500; % Set width
+        %fig2.Position(4) = 500; % Set height
 
         % 이미지 파일 저장 %
         fprintf('    save image in local ... \n\n');
-        filename = sprintf('23-10-%d_%d15', day, time);
+        filename = sprintf('%d-%d-%d_%d15', set_year, set_month, day, time);
 
         if ~exist(save_path, 'dir')
             mkdir(save_path);

@@ -1,5 +1,5 @@
 
-filename = 'C:/Users/민경윤/Desktop/논문/ChlorophyllOceanCurrents/23.10.11/1015.nc';
+filename = 'C:/Users/민경윤/Desktop/논문/ChlorophyllOceanCurrents/24.5.13_slot4/1015.nc';
 latitude_values = ncread(filename, '/navigation_data/latitude');
 longitude_values = ncread(filename, '/navigation_data/longitude');
 
@@ -7,15 +7,16 @@ latitude_values = rot90(latitude_values);
 longitude_values = rot90(longitude_values);
 
 % convert (x,y) -> (lat, long)
-x = 1670;
-y = 1348;
+x = 2425;
+y = 657;
 
 latitude_value = latitude_values(x,y)
 longitude_value = longitude_values(x,y)
 
 % convert (lat, long) -> (x,y)
-lat = 35.652499999999996;
-long = 126.19416666666667;
+lat = 38.007222222222225;
+long = 131.5525;
+
 
 diff_lat = abs(latitude_values - lat);
 diff_long = abs(longitude_values - long);

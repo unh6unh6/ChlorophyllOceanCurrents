@@ -1,10 +1,13 @@
-data_path = './상왕등도_data_fullscreen/test1/result_data.mat';
+data_path = './울릉도_data_24.5.13_fullscreen/interp/result_data.mat';
 result_data = load(data_path);
 result = [];
 
-for time = 10:13
+for time = 10:15
     u_matrix = result_data.u_original{time-9,1};
     v_matrix = result_data.v_original{time-9,1};
+
+    u_matrix = inpaint_nans(u_matrix);
+    v_matrix = inpaint_nans(v_matrix);
     
     [m, n] = size(u_matrix);
     
@@ -73,4 +76,4 @@ for time = 10:13
     result{6, time-9} = direction_str;
 end
 
-result_table = array2table(result, 'VariableNames', {'9~10','10~11','11~12','12~13'});
+result_table = array2table(result, 'VariableNames', {'9~10','10~11','11~12','12~13','13~14','14~15'});
