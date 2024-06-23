@@ -1,4 +1,4 @@
-data_path = './울릉도_data_24.5.13_fullscreen/interp/result_data.mat';
+data_path = './nice/울릉도_data_24.5.14_fullscreen/interp/result_data.mat';
 result_data = load(data_path);
 result = [];
 

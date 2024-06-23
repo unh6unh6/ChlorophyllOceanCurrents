@@ -1,18 +1,17 @@
 clc;
-set_year = 23;
-set_month = 10;
-set_day = 11;
+set_year = 24;
+set_month = 5;
+set_day = 14;
 set_slot = 7;
 
 for day = set_day:set_day
-    minX = 2391;
-    maxX = 2690;
-    minY = 71;
-    maxY = 370;
+    minX = 1520;
+    maxX = 1820;
+    minY = 1198;
+    maxY = 1498;
 
-
-    save_path = './sample_min_devigation_fullscreen/main/after/';
-    for time = 10:10
+    save_path = './분포 히스토그램/';
+    for time = 12:12
 
         fprintf('start  23.10.%d / %d:15 ... \n\n', day, time);
 
@@ -21,12 +20,17 @@ for day = set_day:set_day
         chl_image = ncread(filename, '/geophysical_data/Chl');
         chl_image = rot90(chl_image);
 
-        if time == 12 % save blank image
+        if time == 20 % save blank image
             chl_blank_image = chl_image;
-            chl_blank_image(minX:maxX, minY:maxY) = 0;
+            chl_blank_image(minX:maxX, minY) = 0;
+            chl_blank_image(minX, minY:maxY) = 0;
+            chl_blank_image(maxX, minY:maxY) = 0;
+            chl_blank_image(minX:maxX, maxY) = 0;
+
+
             fig = figure('Visible', 'off');
             pcolor(chl_blank_image); 
-            clim([0, 2.5]); 
+            clim([0, 1.3]); 
             shading flat;
             axis off; 
             set(gca, 'Position', [0 0 1 1]); % Remove margins
@@ -49,7 +53,7 @@ for day = set_day:set_day
 
         chl_image = chl_image(minX:maxX, minY:maxY);
 
-        if time == 12
+        if 1
             temp = chl_image;
             chl_histogram = chl_image(:);
             
@@ -65,7 +69,7 @@ for day = set_day:set_day
             ylabel('Frequency');
             
             % x축과 y축 범위 지정 (옵션)
-            %xlim([0.0 3.0]);
+            xlim([0.0 8.0]);
             %ylim([0 6000]);
             
             % 데이터 개수 구하기
@@ -86,7 +90,7 @@ for day = set_day:set_day
         fprintf('    plot Chl image ... \n\n');
         fig = figure('Visible', 'off');
         pcolor(chl_image); 
-        clim([0, 3.5]); 
+        clim([0, 1]); 
         shading flat;
         axis off;
         set(gca, 'Position', [0 0 1 1]); % Remove margins
@@ -101,16 +105,16 @@ for day = set_day:set_day
         interp_image = inpaint_nans(chl_image, 2);
         fig2 = figure('Visible', 'off');
         pcolor(interp_image); 
-        clim([0, 1.8]); 
+        clim([0, 1]); 
         shading flat;
         axis off;
-        colorbar;
-        %set(gca, 'Position', [0 0 1 1]); % Remove margins
+        %colorbar;
+        set(gca, 'Position', [0 0 1 1]); % Remove margins
         
         % Set figure size explicitly for square shape
-        %fig2.Units = 'pixels';
-        %fig2.Position(3) = 500; % Set width
-        %fig2.Position(4) = 500; % Set height
+        fig2.Units = 'pixels';
+        fig2.Position(3) = 500; % Set width
+        fig2.Position(4) = 500; % Set height
 
         % 이미지 파일 저장 %
         fprintf('    save image in local ... \n\n');
